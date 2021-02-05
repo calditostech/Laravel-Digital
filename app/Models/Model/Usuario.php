@@ -4,6 +4,7 @@ namespace App\Models\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Hash;
 
 class Usuario extends Model
 {
@@ -19,14 +20,15 @@ class Usuario extends Model
             "data_cadastro"
         ])
         ->limit($limite);
-        
-        dd($sql->toSql());
+    
     }
 
     public static function cadastrar(Request $request){
+      
         $sql = self::insert([
             "nome" => $request->input('nome'),
             "email" => $request->input('email'),
+            "senha" => hash::make($request->input('senha')),
             "data_cadastro" => DB::row('NOW()')
         ]);
 
